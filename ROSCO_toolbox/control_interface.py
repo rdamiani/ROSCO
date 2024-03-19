@@ -14,6 +14,11 @@ import numpy as np
 import platform, ctypes
 import zmq
 
+from ctypes import wintypes
+
+kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)    
+kernel32.FreeLibrary.argtypes = [wintypes.HMODULE]
+
 # Some useful constants
 deg2rad = np.deg2rad(1)
 rad2deg = np.rad2deg(1)
@@ -209,7 +214,8 @@ class ControllerInterface():
         extra_libs = []
 
         if OS == "Windows":  # pragma: Windows
-            _dlclose = ctypes.windll.kernel32.FreeLibrary
+            #_dlclose = ctypes.windll.kernel32.FreeLibrary # RRD changed this with the one below
+            _dlclose = kernel32.FreeLibrary
             dlclose = lambda handle: 0 if _dlclose(handle) else 1
             # There's some controversy as to whether this DLL is guaranteed to exist.
             # It always has so far but isn't documented. However, MinGW assumes that it
