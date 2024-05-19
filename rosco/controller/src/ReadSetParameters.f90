@@ -1052,8 +1052,8 @@ CONTAINS
         ! PC_GS_KP and PC_GS_KI
         ! I'd like to throw warnings if these are positive
 
-        ! PC_MinPit and PC_MaxPit
-        IF (CntrPar%PC_MinPit >= CntrPar%PC_MaxPit)  THEN
+        ! PC_MinPit and PC_MaxPit #RRD changed from >= to >
+        IF (CntrPar%PC_MinPit > CntrPar%PC_MaxPit)  THEN
             ErrVar%aviFAIL = -1
             ErrVar%ErrMsg  = 'PC_MinPit must be less than PC_MaxPit.'
         ENDIF
